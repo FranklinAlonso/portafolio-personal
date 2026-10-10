@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" role="img" aria-labelledby="t">
+  <title id="t">Evolución de la arquitectura de SAP: R/2 en mainframe, R/3 en tres capas y S/4HANA con extensiones en SAP BTP</title>
+  <style>
+    .mono { font-family: 'IBM Plex Mono', ui-monospace, Consolas, monospace; }
+    .sans { font-family: 'IBM Plex Sans', system-ui, 'Segoe UI', sans-serif; }
+    .head { font-size: 28px; font-weight: 700; fill: #e8e6e1; }
+    .label { font-size: 22px; font-weight: 600; fill: #e8e6e1; }
+    .sub { font-size: 16px; fill: #9aa0a8; }
+    .cap { font-size: 17px; fill: #7d848d; }
+    .box { fill: #15181d; stroke: #3a3f47; stroke-width: 2; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#f5c84c"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="660" fill="#0d0f12"/>
+
+  <text x="60" y="70" class="mono" font-size="20" fill="#7d848d">// arquitectura</text>
+  <text x="60" y="118" class="sans" font-size="38" font-weight="700" fill="#e8e6e1">Cómo cambió la arquitectura de SAP</text>
+
+  <g text-anchor="middle">
+    <!-- R/2 -->
+    <text x="220" y="232" class="sans head">R/2</text>
+    <rect x="60" y="262" width="320" height="292" rx="10" class="box"/>
+    <text x="220" y="392" class="sans label">Mainframe</text>
+    <text x="220" y="424" class="mono sub">lógica + datos</text>
+    <text x="220" y="450" class="mono sub">terminales de texto</text>
+    <text x="220" y="600" class="mono cap">1979 · un solo sistema</text>
+
+    <!-- R/3 -->
+    <text x="600" y="232" class="sans head">R/3</text>
+    <rect x="440" y="262" width="320" height="84" rx="10" class="box"/>
+    <text x="600" y="298" class="sans label">Presentación</text>
+    <text x="600" y="324" class="mono sub">SAP GUI</text>
+    <rect x="440" y="366" width="320" height="84" rx="10" class="box"/>
+    <text x="600" y="402" class="sans label">Aplicación</text>
+    <text x="600" y="428" class="mono sub">ABAP</text>
+    <rect x="440" y="470" width="320" height="84" rx="10" class="box"/>
+    <text x="600" y="506" class="sans label">Base de datos</text>
+    <text x="600" y="532" class="mono sub">Oracle · DB2 · SQL Server</text>
+    <text x="600" y="600" class="mono cap">1992 · tres capas</text>
+
+    <!-- S/4HANA + BTP -->
+    <text x="980" y="232" class="sans head">S/4HANA + BTP</text>
+    <rect x="820" y="262" width="190" height="292" rx="10" fill="#15181d" stroke="#f5c84c" stroke-width="2"/>
+    <text x="915" y="324" class="sans label">S/4HANA</text>
+    <text x="915" y="354" class="mono sub">Fiori · ABAP</text>
+    <text x="915" y="378" class="mono sub">núcleo estándar</text>
+    <rect x="836" y="470" width="158" height="68" rx="8" fill="#1f232a"/>
+    <text x="915" y="510" class="mono sub" style="fill:#e8e6e1">SAP HANA</text>
+
+    <rect x="1025" y="262" width="115" height="292" rx="10" fill="#121a1e" stroke="#5cc8e8" stroke-width="2"/>
+    <text x="1082" y="312" class="sans label" style="fill:#5cc8e8">SAP</text>
+    <text x="1082" y="340" class="sans label" style="fill:#5cc8e8">BTP</text>
+    <text x="1082" y="400" class="mono sub">CAP</text>
+    <text x="1082" y="432" class="mono sub">Fiori</text>
+    <text x="1082" y="464" class="mono sub">Integration</text>
+    <text x="1082" y="496" class="mono sub">Joule</text>
+    <text x="980" y="600" class="mono cap">2015 · núcleo + extensiones</text>
+  </g>
+
+  <line x1="1010" y1="330" x2="1025" y2="330" stroke="#5cc8e8" stroke-width="2"/>
+  <line x1="1010" y1="408" x2="1025" y2="408" stroke="#5cc8e8" stroke-width="2"/>
+  <line x1="1010" y1="486" x2="1025" y2="486" stroke="#5cc8e8" stroke-width="2"/>
+
+  <line x1="388" y1="408" x2="430" y2="408" stroke="#f5c84c" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="768" y1="408" x2="810" y2="408" stroke="#f5c84c" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

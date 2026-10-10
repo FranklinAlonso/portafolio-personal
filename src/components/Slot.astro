@@ -1,0 +1,17 @@
+---
+/** Image with a striped placeholder fallback (replaces the design's <image-slot>). */
+interface Props {
+  src?: string | null;
+  alt?: string;
+  placeholder: string;
+  shape?: 'rect' | 'rounded' | 'circle';
+  fit?: 'cover' | 'contain';
+  size?: number;
+}
+const { src, alt = '', placeholder, shape = 'rect', fit = 'cover', size } = Astro.props;
+const style = size ? `width:${size}px;height:${size}px` : undefined;
+const cls = ['slot', `slot--${shape}`, fit === 'contain' && 'slot--contain', !src && 'slot--empty'];
+---
+<span class:list={cls} style={style}>
+  {src ? <img src={src} alt={alt} loading="lazy" decoding="async" /> : placeholder}
+</span>

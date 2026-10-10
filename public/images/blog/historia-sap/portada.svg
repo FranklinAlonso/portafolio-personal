@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="t">
+  <title id="t">Línea de tiempo de SAP: 1972 R/1, 1979 R/2, 1992 R/3, 2004 ECC, 2015 S/4HANA, 2023 Joule</title>
+  <style>
+    .mono { font-family: 'IBM Plex Mono', ui-monospace, Consolas, monospace; }
+    .sans { font-family: 'IBM Plex Sans', system-ui, 'Segoe UI', sans-serif; }
+    .year { font-size: 26px; font-weight: 600; fill: #f5c84c; }
+    .name { font-size: 30px; font-weight: 600; fill: #e8e6e1; }
+    .desc { font-size: 18px; fill: #7d848d; }
+  </style>
+  <rect width="1200" height="630" fill="#0d0f12"/>
+
+  <text x="64" y="84" class="mono" font-size="22" fill="#7d848d">$ git log --oneline sap</text>
+  <text x="64" y="150" class="sans" font-size="56" font-weight="700" fill="#e8e6e1">De R/1 a Joule</text>
+  <text x="64" y="196" class="sans" font-size="26" fill="#9aa0a8">Más de 50 años de SAP en seis versiones</text>
+
+  <line x1="80" y1="400" x2="894" y2="400" stroke="#3a3f47" stroke-width="2"/>
+  <line x1="894" y1="400" x2="1120" y2="400" stroke="#2f6475" stroke-width="2"/>
+
+  <g text-anchor="middle">
+    <g>
+      <text x="110" y="360" class="mono year">1972</text>
+      <circle cx="110" cy="400" r="9" fill="#0d0f12" stroke="#f5c84c" stroke-width="3"/>
+      <text x="110" y="452" class="sans name">R/1</text>
+      <text x="110" y="486" class="mono desc">contable</text>
+    </g>
+    <g>
+      <text x="306" y="360" class="mono year">1979</text>
+      <circle cx="306" cy="400" r="9" fill="#0d0f12" stroke="#f5c84c" stroke-width="3"/>
+      <text x="306" y="452" class="sans name">R/2</text>
+      <text x="306" y="486" class="mono desc">mainframe</text>
+    </g>
+    <g>
+      <text x="502" y="360" class="mono year">1992</text>
+      <circle cx="502" cy="400" r="9" fill="#0d0f12" stroke="#f5c84c" stroke-width="3"/>
+      <text x="502" y="452" class="sans name">R/3</text>
+      <text x="502" y="486" class="mono desc">cliente-servidor</text>
+    </g>
+    <g>
+      <text x="698" y="360" class="mono year">2004</text>
+      <circle cx="698" cy="400" r="9" fill="#0d0f12" stroke="#f5c84c" stroke-width="3"/>
+      <text x="698" y="452" class="sans name">ECC</text>
+      <text x="698" y="486" class="mono desc">NetWeaver</text>
+    </g>
+    <g>
+      <text x="894" y="360" class="mono year">2015</text>
+      <circle cx="894" cy="400" r="9" fill="#f5c84c"/>
+      <text x="894" y="452" class="sans name">S/4HANA</text>
+      <text x="894" y="486" class="mono desc">in-memory</text>
+    </g>
+    <g>
+      <text x="1090" y="360" class="mono year" style="fill:#5cc8e8">2023</text>
+      <circle cx="1090" cy="400" r="20" fill="none" stroke="#2f6475" stroke-width="2"/>
+      <circle cx="1090" cy="400" r="9" fill="#5cc8e8"/>
+      <text x="1090" y="452" class="sans name" style="fill:#5cc8e8">Joule</text>
+      <text x="1090" y="486" class="mono desc">IA · agentes</text>
+    </g>
+  </g>
+
+  <text x="64" y="578" class="mono" font-size="18" fill="#7d848d">1972 → hoy</text>
+  <text x="1136" y="578" class="mono" font-size="18" fill="#7d848d" text-anchor="end">franklinalonso.dev</text>
+</svg>

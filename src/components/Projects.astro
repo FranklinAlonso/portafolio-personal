@@ -1,0 +1,71 @@
+---
+import Slot from './Slot.astro';
+import ProjectDialog from './ProjectDialog.astro';
+import DialogScript from './DialogScript.astro';
+import { t, type Lang } from '../i18n';
+import { projects } from '../data/portfolio';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const list = projects(lang);
+const filters = [['all', T.all], ['app', T.apps], ['case', T.cases]].map(([k, label]) => ({
+  k, label, n: k === 'all' ? list.length : list.filter((p) => p.type === k).length,
+})).filter((f) => f.n > 0);
+---
+<div class="stack" style="gap:28px">
+  <div class="page-head">
+    <span>$ ls ./{lang === 'es' ? 'proyectos' : 'projects'}</span>
+    <h1>{T.projects}</h1>
+  </div>
+  {filters.length > 2 && (
+    <div class="filters" id="filters">
+      {filters.map((f) => (
+        <button class="filter" type="button" data-filter={f.k} aria-pressed={f.k === 'all' ? 'true' : 'false'}>
+          {f.label} <small>{f.n}</small>
+        </button>
+      ))}
+    </div>
+  )}
+  <div class="proj-grid">
+    {list.map((p) => (
+      <article class="proj" data-type={p.type} data-open={p.id}>
+        <div class="proj__shot">
+          <Slot src={p.img} alt={p.title} placeholder={p.ph} />
+          <span class="proj__type" style={`background:${p.typeBg}`}>{p.typeLabel}</span>
+        </div>
+        <div class="proj__body">
+          <div class="proj__meta">
+            <span style={`color:${p.color}`}>{p.world}</span>
+            <span style={`color:${p.statusColor}`}>● {p.status}</span>
+          </div>
+          <b>{p.title}</b>
+          <p>{p.summary}</p>
+          <div class="tags">{p.tags.map((tg) => <span class="tag">{tg}</span>)}</div>
+          <div class="proj__actions">
+            {p.links.map((l) => (
+              <a class:list={['plink', l.primary && 'plink--primary']} href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
+            ))}
+            <button class="details-btn" type="button" aria-haspopup="dialog">{T.details} →</button>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
+
+{list.map((p) => <ProjectDialog p={p} lang={lang} />)}
+<DialogScript />
+
+<script>
+  const bar = document.getElementById('filters');
+  bar?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+    if (!btn) return;
+    const f = btn.dataset.filter;
+    bar.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    document.querySelectorAll<HTMLElement>('.proj').forEach((card) => {
+      card.hidden = f !== 'all' && card.dataset.type !== f;
+    });
+  });
+</script>

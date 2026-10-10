@@ -1,0 +1,168 @@
+---
+import { getCollection } from 'astro:content';
+import Slot from './Slot.astro';
+import ProjectDialog from './ProjectDialog.astro';
+import DialogScript from './DialogScript.astro';
+import { t, route, postUrl, formatDate, type Lang } from '../i18n';
+import { changelog, projects, certs, sapStack, cloudStack, links, images } from '../data/portfolio';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const log = changelog(lang);
+const featured = projects(lang)[0];
+const SEL = 1;
+const badges = await certs();
+const [post] = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => +b.data.date - +a.data.date);
+---
+<div class="stack">
+  <section class="term">
+    <div class="term__bar"><i></i><i></i><i></i><span>~/franklin — zsh</span></div>
+    <div class="hero">
+      <div class="hero__body">
+        <div class="prompt"><b>$</b>&nbsp;<span id="typed">whoami</span><span class="cursor" aria-hidden="true"></span></div>
+        <h1>Franklin Alonso De La Cruz</h1>
+        <p class="hero__sub">{T.heroSub}</p>
+        <div class="hero__status">
+          <span><b>status:</b> v5.0.0-beta · {T.learning}</span>
+          <span><b>loc:</b> Lima, Perú</span>
+        </div>
+        <div class="actions">
+          <button class="btn btn--primary" type="button" data-copy-email data-copied={T.copied}>{T.copy}</button>
+        </div>
+        <div class="socials">
+          <a class="social" href={links.linkedin} target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          </a>
+          <a class="social" href={links.github} target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57v-2c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 .3"/></svg>
+          </a>
+          <a class="social" href="mailto:franalondlc22@gmail.com" title="Email" aria-label="Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          </a>
+          <a class="social" href={links.credly} target="_blank" rel="noopener" title="Credly" aria-label="Credly">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.9 7 22l5-3 5 3-1.5-8.1"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero__avatar">
+        <Slot src={images.avatar} alt="Franklin Alonso De La Cruz" placeholder={T.photo} shape="circle" size={180} />
+      </div>
+    </div>
+  </section>
+
+  <div class="bento">
+    <section class="card span-2">
+      <div class="card__meta"><span>module: sap-core</span><small>since v3.0</small></div>
+      <h2>{T.sapWorld}</h2>
+      <p class="card__desc">{T.sapDesc}</p>
+      <div class="chips">
+        {sapStack.map((s) => <span class="chip" style={`color:${s.color};border-color:${s.on ? s.color : ''}`}>{s.name}</span>)}
+      </div>
+    </section>
+
+    <section class="card card--cloud span-2">
+      <div class="card__meta"><span>module: cloud · beta</span><small>since v5.0-β</small></div>
+      <h2>{T.cloudWorld}</h2>
+      <p class="card__desc">{T.cloudDesc}</p>
+      <div class="chips">
+        {cloudStack.map((s) => <span class="chip" style={`color:${s.color};border-color:${s.on ? s.color : ''}`}>{s.name}</span>)}
+      </div>
+    </section>
+
+    <section class="bridge span-4">
+      <span>import</span><b>⇄ SAP BTP</b><span>{T.bridge}</span>
+    </section>
+
+    <section class="card span-2 row-2" style="gap:12px">
+      <div class="card__meta"><b class="mono" style="font-size:14px;color:var(--text)">CHANGELOG.md</b><small>{T.tapVersion}</small></div>
+      <div class="log-mini" id="log-mini">
+        {log.map((e, i) => (
+          <button type="button" data-i={i} aria-pressed={i === SEL ? 'true' : 'false'}>
+            <span class="bullet" style={`background:${e.color}`}></span>
+            <span class="v" style={`color:${e.color}`}>{e.v}</span>
+            <span class="t">{e.title} <small>· {e.date}</small></span>
+          </button>
+        ))}
+      </div>
+      {log.map((e, i) => (
+        <div class="log-detail" data-detail={i} hidden={i !== SEL}>
+          <span class="mono muted" style="font-size:12px">{e.org}</span>
+          <ul class="plus-list">{e.items.map((li) => <li>{li}</li>)}</ul>
+          <a class="cta-more" href={route(lang, 'log')} style="padding-top:4px">{T.fullHistory} →</a>
+        </div>
+      ))}
+    </section>
+
+    <section class="card card--link span-2" style="gap:10px" data-open={featured.id} role="button" tabindex="0">
+      <span class="mono muted" style="font-size:12px">/{lang === 'es' ? 'proyectos' : 'projects'} · {T.featured}</span>
+      <h3 style="font:600 19px/1.25 var(--sans);text-wrap:balance">{featured.title}</h3>
+      <p class="card__desc">{featured.summary}</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto">
+        <div class="tags">{featured.tags.map((tg) => <span class="tag">{tg}</span>)}</div>
+        <span class="cta-more">{T.viewCase} →</span>
+      </div>
+    </section>
+
+    {post && (
+      <a class="card card--link" style="gap:8px" href={postUrl(lang, post.id)}>
+        <span class="mono muted" style="font-size:12px">/blog · {formatDate(post.data.date, lang)}</span>
+        <b style="font-size:15px;line-height:1.35">{post.data.short}</b>
+        <span class="cta-more" style="font-size:12px;margin-top:auto">{T.read} →</span>
+      </a>
+    )}
+
+    <section class="contact">
+      <span>/{lang === 'es' ? 'contacto' : 'contact'}</span>
+      <b>{T.talk}</b>
+      <div class="contact__links">
+        <a href={links.linkedin} target="_blank" rel="noopener">linkedin ↗</a>
+        <button type="button" data-copy-email data-copied={T.copied}>email ⧉</button>
+      </div>
+    </section>
+
+    <section class="card span-4">
+      <span class="mono muted" style="font-size:12px">certs/</span>
+      <div class="certs">
+        {badges.map((c) => (
+          <div class:list={['cert', c.cloud && 'cert--cloud']}>
+            <Slot src={c.img} alt={c.name} placeholder="badge" shape="rounded" fit="contain" size={56} />
+            <div class="cert__body">
+              <b>{c.name}</b>
+              <span>{c.by}</span>
+              <a href={c.url} target="_blank" rel="noopener">{T.verify} ↗</a>
+            </div>
+          </div>
+        ))}
+        {badges.length === 0 && <a class="mono" href={links.credly} target="_blank" rel="noopener">{T.verify} ↗</a>}
+      </div>
+    </section>
+  </div>
+</div>
+
+<ProjectDialog p={featured} lang={lang} />
+<DialogScript />
+
+<script>
+  // Typing effect for "whoami" (skipped with reduced motion).
+  const el = document.getElementById('typed');
+  if (el && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const cmd = el.textContent ?? '';
+    let n = 0;
+    el.textContent = '';
+    const id = setInterval(() => {
+      el.textContent = cmd.slice(0, ++n);
+      if (n >= cmd.length) clearInterval(id);
+    }, 160);
+  }
+
+  // Changelog picker.
+  const mini = document.getElementById('log-mini');
+  mini?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-i]');
+    if (!btn) return;
+    const i = btn.dataset.i;
+    mini.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    document.querySelectorAll<HTMLElement>('[data-detail]').forEach((d) => (d.hidden = d.dataset.detail !== i));
+  });
+</script>

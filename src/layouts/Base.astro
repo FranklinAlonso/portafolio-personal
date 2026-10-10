@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import { navLabels, route, t, EMAIL, type Lang, type Page } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** Highlighted nav entry */
+  page?: Page;
+  /** Same page in the other language */
+  alt: string;
+}
+
+const { lang, title, description, page, alt } = Astro.props;
+const T = t(lang);
+const pages: Page[] = ['home', 'log', 'proj', 'blog'];
+const fullTitle = title ? `${title} · Franklin Alonso De La Cruz` : 'Franklin Alonso De La Cruz · SAP & Cloud';
+const esHref = lang === 'es' ? Astro.url.pathname : alt;
+const enHref = lang === 'en' ? Astro.url.pathname : alt;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description ?? T.metaDesc} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" hreflang={lang === 'es' ? 'en' : 'es'} href={new URL(alt, Astro.site)} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description ?? T.metaDesc} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav__inner">
+      <a class="brand" href={route(lang, 'home')}><span class="dot"></span>franklinalonso.dev</a>
+      <div class="nav__links">
+        {pages.map((p) => (
+          <a class="nav__link" href={route(lang, p)} aria-current={p === page ? 'page' : undefined}>{navLabels[lang][p]}</a>
+        ))}
+        <div class="lang" aria-label="Idioma / Language">
+          <a href={esHref} hreflang="es" aria-current={lang === 'es' ? 'true' : undefined} data-lang="es">ES</a>
+          <a href={enHref} hreflang="en" aria-current={lang === 'en' ? 'true' : undefined} data-lang="en">EN</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <span>© {new Date().getFullYear()} Franklin Alonso De La Cruz</span>
+      <span>"{T.quote}"</span>
+    </div>
+  </footer>
+
+  <script is:inline define:vars={{ EMAIL }}>
+    // Copy-to-clipboard for any [data-copy-email] button.
+    document.querySelectorAll('[data-copy-email]').forEach((btn) => {
+      const original = btn.textContent;
+      let timer;
+      btn.addEventListener('click', () => {
+        navigator.clipboard?.writeText(EMAIL).catch(() => {});
+        btn.textContent = btn.dataset.copied;
+        clearTimeout(timer);
+        timer = setTimeout(() => (btn.textContent = original), 1800);
+      });
+    });
+    // Remember language choice.
+    document.querySelectorAll('[data-lang]').forEach((a) =>
+      a.addEventListener('click', () => { try { localStorage.setItem('fdlc-lang', a.dataset.lang); } catch {} })
+    );
+  </script>
+</body>
+</html>

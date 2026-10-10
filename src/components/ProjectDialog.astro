@@ -1,0 +1,30 @@
+---
+import Slot from './Slot.astro';
+import { t, type Lang } from '../i18n';
+import type { Project } from '../data/portfolio';
+
+interface Props { p: Project; lang: Lang }
+const { p, lang } = Astro.props;
+const T = t(lang);
+---
+<dialog class="modal" id={p.id} aria-labelledby={`${p.id}-title`}>
+  <div class="modal__bar">
+    <span style={`color:${p.color}`}>{p.world}</span>
+    <button type="button" data-close aria-label={T.close}>✕</button>
+  </div>
+  <div class="modal__body">
+    <h2 id={`${p.id}-title`}>{p.title}</h2>
+    <div class="tags">{p.tags.map((tg) => <span class="tag tag--lg">{tg}</span>)}</div>
+    {p.links.length > 0 && (
+      <div class="proj__actions">
+        {p.links.map((l) => (
+          <a class:list={['plink', 'plink--lg', l.primary && 'plink--primary']} href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
+        ))}
+      </div>
+    )}
+    <div class="modal__diagram"><Slot src={p.img} placeholder={T.diagram} alt={p.title} /></div>
+    {p.blocks.map((b) => (
+      <div class="modal__block"><b>{b.k}</b><span>{b.v}</span></div>
+    ))}
+  </div>
+</dialog>

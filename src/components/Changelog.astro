@@ -1,0 +1,28 @@
+---
+import { t, type Lang } from '../i18n';
+import { changelog } from '../data/portfolio';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+---
+<div class="stack narrow" style="gap:28px">
+  <div class="page-head">
+    <span>$ cat CHANGELOG.md</span>
+    <h1>Changelog</h1>
+    <p>{T.logIntro}</p>
+  </div>
+  <div class="timeline">
+    {changelog(lang).map((e) => (
+      <div class="tl">
+        <div class="tl__rail"><i style={`background:${e.color}`}></i><span></span></div>
+        <div class="tl__body">
+          <div class="tl__head"><b style={`color:${e.color}`}>{e.v}</b><span>{e.date}</span></div>
+          <h2>{e.title}</h2>
+          <span class="tl__org">{e.org}</span>
+          <ul class="plus-list">{e.items.map((li) => <li>{li}</li>)}</ul>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

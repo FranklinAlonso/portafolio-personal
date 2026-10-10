@@ -1,0 +1,32 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Slot from './Slot.astro';
+import { t, route, formatDate, type Lang } from '../i18n';
+import { images } from '../data/portfolio';
+
+interface Props { lang: Lang; post: CollectionEntry<'blog'> }
+const { lang, post } = Astro.props;
+const T = t(lang);
+const { Content } = await render(post);
+const d = post.data;
+---
+<article class="article">
+  <a class="back" href={route(lang, 'blog')}>← cd ../blog</a>
+  <header>
+    <div class="post-meta">
+      <span>{formatDate(d.date, lang)}</span><span>·</span><span>{d.minutes} {T.minRead}</span>
+      {d.example && <span class="badge">{T.example}</span>}
+    </div>
+    <h1>{d.title}</h1>
+    <p class="article__lead">{d.summary}</p>
+    <div class="tags">{d.tags.map((tg) => <span class="tag tag--lg">{tg}</span>)}</div>
+    {d.lang !== lang && T.esOnly && <span class="es-note">{T.esOnly}</span>}
+  </header>
+  <div class="prose" lang={d.lang}>
+    <Content />
+  </div>
+  <footer>
+    <Slot src={images.avatar} alt="Franklin Alonso De La Cruz" placeholder="foto" shape="circle" size={48} />
+    <div><b>Franklin Alonso De La Cruz</b><span>{T.authorBio}</span></div>
+  </footer>
+</article>

@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import { t, postUrl, formatDate, type Lang } from '../i18n';
+import { topics } from '../data/portfolio';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const T = t(lang);
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => +b.data.date - +a.data.date);
+---
+<div class="stack narrow" style="gap:24px">
+  <div class="page-head">
+    <span>$ ls ./blog</span>
+    <h1>Blog</h1>
+    <p>{T.blogIntro}</p>
+  </div>
+  <div class="topics">{topics(lang).map((tp) => <span class="topic">#{tp}</span>)}</div>
+  {posts.map((post) => (
+    <a class="card card--link post-card" style="gap:10px" href={postUrl(lang, post.id)}>
+      <div class="post-meta">
+        <span>{formatDate(post.data.date, lang)}</span><span>·</span><span>{post.data.minutes} {T.minRead}</span>
+        {post.data.example && <span class="badge">{T.example}</span>}
+      </div>
+      <b>{post.data.title}</b>
+      <p>{post.data.summary}</p>
+      <div class="post-card__foot">
+        <div class="tags">{post.data.tags.map((tg) => <span class="tag">{tg}</span>)}</div>
+        <span class="cta-more">{T.read} →</span>
+      </div>
+    </a>
+  ))}
+  <div class="soon">{T.soon}</div>
+</div>

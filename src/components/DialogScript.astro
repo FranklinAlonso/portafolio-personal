@@ -1,0 +1,18 @@
+<script>
+  // Opens <dialog id=...> from any [data-open] trigger; closes on ✕ or backdrop click. Esc is native.
+  document.querySelectorAll<HTMLElement>('[data-open]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) return; // let card links work
+      (document.getElementById(el.dataset.open!) as HTMLDialogElement | null)?.showModal();
+    });
+    if (el.tagName !== 'BUTTON') {
+      el.addEventListener('keydown', (e) => {
+        if (e.target === el && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); el.click(); }
+      });
+    }
+  });
+  document.querySelectorAll<HTMLDialogElement>('dialog.modal').forEach((d) => {
+    d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+    d.querySelector('[data-close]')?.addEventListener('click', () => d.close());
+  });
+</script>
